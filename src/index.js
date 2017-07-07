@@ -1,14 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import App from './App';
-// import registerServiceWorker from './registerServiceWorker';
- import './index.css';
+import './index.css';
 import Todoitem from './component/todoitem.js';
+import TodoForm from './component/TodoForm.js';
 
 class TodoList extends React.Component {
   constructor() {
     super();
     this.changeStage = this.changeStage.bind(this);
+    this.updateTask = this.updateTask.bind(this);
+    this.addTask = this.addTask.bind(this);
     this.state = {
       tasks:[{
         name:'Amit Kumar',
@@ -25,9 +26,30 @@ class TodoList extends React.Component {
       {
         name:'Narash Kumar',
         completed:false
-      }]
+      }],
+      currentTask:''
     }
   }
+
+addTask(event){
+ event.preventDefault();
+let tasks = this.state.tasks;
+let currentTask  = this.state.currentTask;
+tasks.push({
+  name:currentTask,
+  completed:false
+})
+this.setState({
+  tasks,
+  currentTask:''
+})
+}
+
+updateTask(newvalue){
+  this.setState({
+    currentTask:newvalue.target.value
+  })
+}
  changeStage(index){
    //console.log(this.state.tasks[index]);
    var tasks = this.state.tasks;
@@ -38,8 +60,15 @@ class TodoList extends React.Component {
    	tasks:tasks
    })
  }
+
 render(){
   return(
+    <section>
+    <TodoForm
+      currentTask={this.state.currentTask}
+      updateTask={this.updateTask}
+      addTask={this.addTask}
+      />
     <ul>
     {
       this.state.tasks.map((tasks, index) => {
@@ -52,6 +81,7 @@ render(){
      })
    }
     </ul>
+    </section>
   )
  }
 }
