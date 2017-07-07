@@ -10,6 +10,7 @@ class TodoList extends React.Component {
     this.changeStage = this.changeStage.bind(this);
     this.updateTask = this.updateTask.bind(this);
     this.addTask = this.addTask.bind(this);
+    this.deleteTask = this.deleteTask.bind(this);
     this.state = {
       tasks:[{
         name:'Amit Kumar',
@@ -31,18 +32,27 @@ class TodoList extends React.Component {
     }
   }
 
+deleteTask(index){
+  console.log(index);
+  let tasks = this.state.tasks;
+  tasks.splice(index,1);
+  this.setState({
+    tasks
+  })
+}
+
 addTask(event){
- event.preventDefault();
-let tasks = this.state.tasks;
-let currentTask  = this.state.currentTask;
-tasks.push({
-  name:currentTask,
-  completed:false
-})
-this.setState({
-  tasks,
-  currentTask:''
-})
+  event.preventDefault();
+  let tasks = this.state.tasks;
+  let currentTask  = this.state.currentTask;
+  tasks.push({
+    name:currentTask,
+    completed:false
+  })
+  this.setState({
+    tasks,
+    currentTask:''
+  })
 }
 
 updateTask(newvalue){
@@ -50,12 +60,12 @@ updateTask(newvalue){
     currentTask:newvalue.target.value
   })
 }
- changeStage(index){
+
+changeStage(index){
    //console.log(this.state.tasks[index]);
    var tasks = this.state.tasks;
    var task = tasks[index];
    task.completed = !task.completed;
-
    this.setState({
    	tasks:tasks
    })
@@ -73,10 +83,11 @@ render(){
     {
       this.state.tasks.map((tasks, index) => {
         return <Todoitem
-        key={tasks.name}
-        detail = {tasks}
-        clickHandeler = {this.changeStage}
-        index = {index}
+                key={tasks.name}
+                detail = {tasks}
+                clickHandeler = {this.changeStage}
+                index = {index}
+                deleteTask = {this.deleteTask}
         />;
      })
    }

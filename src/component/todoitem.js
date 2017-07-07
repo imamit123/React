@@ -23,7 +23,15 @@ const Todoitem = (props) => {
        className={
          props.detail.completed ? 'completed' : ''
        } >
-       {props.detail.name}</li>
+       {props.detail.name}
+       <button
+         onClick={ (event) => {
+           event.stopPropagation();
+         props.deleteTask(props.index);
+          }}>
+       Delete</button>
+       </li>
+
      )
 }
 
